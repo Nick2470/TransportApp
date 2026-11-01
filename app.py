@@ -2,6 +2,7 @@ from flask import Flask, request
 from datetime import date
 import sqlite3
 import os
+import pandas as pd
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -285,6 +286,31 @@ def ritten():
     html += "<a href='/'>Terug</a>"
 
     return html
+
+@app.route("/excel")
+def excel():
+
+    conn = sqlite3.connect("database.db")
+
+    df = pd.read_sql_query(
+        "SELECT * FROM ritten",
+        conn
+    )
+
+    bestand = "ritten.xlsx"
+
+    df.to_excel(
+        bestand,
+        index=False
+    )
+
+    conn.close()
+
+    return f"""
+    <h2>✅ Excel gemaakt</h2>
+    <p>{bestand}</p>
+    <a href="/">Terug</a>
+    """
 
 
 if __name__ == "__main__":
