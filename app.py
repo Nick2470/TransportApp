@@ -248,7 +248,7 @@ def home():
 
     <br><br>
 
-    <a href="/excel">📊 Excel maken</a>
+    <a href="/excel" target="_blank">📊 Excel downloaden</a>
 
     </body>
     </html>
