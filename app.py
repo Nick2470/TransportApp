@@ -257,7 +257,7 @@ def ritten():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT datum, voertuig, laadadres, losadres
+    SELECT datum, voertuig, laadadres, losadres, foto
     FROM ritten
     ORDER BY id DESC
     """)
@@ -274,6 +274,7 @@ def ritten():
         {rit[0]} |
         {rit[1]} |
         {rit[2]} → {rit[3]}
+        Foto: {rit[4]}
         </p>
         """
 
