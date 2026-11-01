@@ -76,7 +76,7 @@ def home():
             km_aankomst,
             foto
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             request.form.get("datum", ""),
             request.form.get("voertuig", ""),
