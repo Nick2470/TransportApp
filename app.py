@@ -50,7 +50,7 @@ def home():
 
              os.makedirs(
                  "static/uploads",
-                 exist_ok=true
+                 exist_ok=True
              )
         
              foto.save(
