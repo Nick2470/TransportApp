@@ -1,6 +1,8 @@
 from flask import Flask, request
 from datetime import date
 import sqlite3
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -24,7 +26,8 @@ CREATE TABLE IF NOT EXISTS ritten (
     laadadres TEXT,
     losadres TEXT,
     km_vertrek INTEGER,
-    km_aankomst INTEGER
+    km_aankomst INTEGER,
+    foto TEXT
 )
 """)
 
@@ -37,11 +40,26 @@ def home():
 
     if request.method == "POST":
 
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
+         foto = request.files.get("foto")
+        
+         bestandsnaam = ""
+        
+         if foto and foto.filename:
+                
+             bestandsnaam = secure_filename(foto.filename)
+        
+             foto.save(
+                os.path.join(
+                    "static/uploads",
+                     bestandsnaam
+                 )
+            )    
 
-        cursor.execute("""
-        INSERT INTO ritten (
+         conn = sqlite3.connect("database.db")
+         cursor = conn.cursor()
+
+         cursor.execute("""
+         INSERT INTO ritten (
             datum,
             voertuig,
             klant,
@@ -55,9 +73,10 @@ def home():
             laadadres,
             losadres,
             km_vertrek,
-            km_aankomst
+            km_aankomst,
+            foto
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             request.form.get("datum", ""),
             request.form.get("voertuig", ""),
@@ -72,16 +91,17 @@ def home():
             request.form.get("laadadres", ""),
             request.form.get("losadres", ""),
             request.form.get("km_vertrek", 0),
-            request.form.get("km_aankomst", 0)
-        ))
+            request.form.get("km_aankomst", 0),
+            bestandsnaam
+         ))
 
-        conn.commit()
-        conn.close()
+         conn.commit()
+         conn.close()
 
-        return """
-        <h2>✅ Rit opgeslagen</h2>
-        <a href="/">Nieuwe rit</a>
-        """
+         return """
+         <h2>✅ Rit opgeslagen</h2>
+         <a href="/">Nieuwe rit</a>
+         """
 
     return """
     <!DOCTYPE html>
@@ -134,7 +154,7 @@ def home():
 
     <h1>🚛 Digitaal Rittenblad</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
 
         <div class="kaart">
 
@@ -201,6 +221,14 @@ def home():
         <input type="number" name="km_aankomst">
 
         </div>
+
+        <h3>📸 Foto</h3>
+
+        <input
+        type="file"
+        name="foto"
+        accept="image/*"
+        capture="environment">
 
         <button type="submit">
             💾 Rit opslaan
