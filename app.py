@@ -310,11 +310,10 @@ def excel():
 
     conn.close()
 
-    return f"""
-    <h2>✅ Excel gemaakt</h2>
-    <p>{bestand}</p>
-    <a href="/">Terug</a>
-    """
+    return send_file(
+    bestand,
+    as_attachment=True
+    )
 
 
 if __name__ == "__main__":
