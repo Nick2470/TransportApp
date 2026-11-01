@@ -246,6 +246,10 @@ def home():
 
     <a href="/ritten">📋 Bekijk ritten</a>
 
+    <br><br>
+
+    <a href="/excel">📊 Excel maken</a>
+
     </body>
     </html>
     """
