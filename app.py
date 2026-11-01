@@ -274,8 +274,12 @@ def ritten():
         {rit[0]} |
         {rit[1]} |
         {rit[2]} → {rit[3]}
-        Foto: {rit[4]}
         </p>
+
+        <img src="/static/uploads/{rit[4]}"
+            width="250">
+
+        <br><br>
         """
 
     html += "<a href='/'>Terug</a>"
