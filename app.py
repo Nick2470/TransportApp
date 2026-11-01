@@ -33,17 +33,6 @@ CREATE TABLE IF NOT EXISTS ritten (
 """)
 
 conn.commit()
-
-df = pd.read_sql_query(
-    "SELECT * FROM ritten",
-    conn
-)
-
-df.to_excel(
-    "ritten.xlsx",
-    index=False
-)
-
 conn.close()
 
 
@@ -113,12 +102,24 @@ def home():
          ))
 
          conn.commit()
+
+         df = pd.read_sql_query(
+            "SELECT * FROM ritten",
+            conn
+         )
+
+         df.to_excel(
+            "ritten.xlsx",
+            index=False
+         )
+
          conn.close()
 
          return """
          <h2>✅ Rit opgeslagen</h2>
          <a href="/">Nieuwe rit</a>
          """
+         
 
     return """
     <!DOCTYPE html>
