@@ -33,6 +33,17 @@ CREATE TABLE IF NOT EXISTS ritten (
 """)
 
 conn.commit()
+
+df = pd.read_sql_query(
+    "SELECT * FROM ritten",
+    conn
+)
+
+df.to_excel(
+    "ritten.xlsx",
+    index=False
+)
+
 conn.close()
 
 
