@@ -47,6 +47,11 @@ def home():
          if foto and foto.filename:
                 
              bestandsnaam = secure_filename(foto.filename)
+
+             os.makedirs(
+                 "static/uploads",
+                 exist_ok=true
+             )
         
              foto.save(
                 os.path.join(
